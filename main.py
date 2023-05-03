@@ -244,6 +244,7 @@ def create_process():
         processes[x].tempIODuration = processes[x].ioDuration
         x += 1
 
+# Resets the processes to their default state
 def reset_processes():
     if simulating:
         for i in processes:
@@ -256,6 +257,7 @@ def reset_processes():
             i.currentState = READY
             i.tempIODuration = i.ioDuration
             i.tempCPUTime = i.cpuTime
+            i.ioTime = i.tempIOTime
         currentTime = 0
         runningNum = -1
         cpuNum = -1
@@ -263,6 +265,7 @@ def reset_processes():
         admitList.clear()
         interruptList.clear()
 
+# Determines where the user clicked and performs an action if necessary
 def clicked():
     mouse_x, mouse_y = pygame.mouse.get_pos()
     global simulating, currentNumProcesses, currentTime, processSettings
@@ -339,6 +342,7 @@ def clicked():
             process_io()
             cpu()
 
+# Add process to admit list when they arrive
 def process_arrival():
     global currentTime, admitList
     x = 0
@@ -348,6 +352,7 @@ def process_arrival():
             admitList.append(x)
         x += 1
 
+# Add process to the interrupt list when I/O is finished
 def process_io():
     global interruptList
     x = 0
@@ -400,11 +405,12 @@ def cpu():
                 cpuNum = runningNum
                 readyList.pop(0)
 
+# Draw the triangle to represent the CPU in the simulation
 def draw_cpu(num):
     if num < 4:
-        WIN.blit(CPU, (TOP_PROCESS_POS[0] + (num * PROCESS_OFFSET) + 25, TOP_PROCESS_POS[1] + 65))
+        WIN.blit(CPU, (TOP_PROCESS_POS[0] + (num * PROCESS_OFFSET) + 23, TOP_PROCESS_POS[1] + 65))
     else:
-        WIN.blit(CPU, (BOTTOM_PROCESS_POS[0] + ((num - 4) * PROCESS_OFFSET) + 25, BOTTOM_PROCESS_POS[1] + 65))
+        WIN.blit(CPU, (BOTTOM_PROCESS_POS[0] + ((num - 4) * PROCESS_OFFSET) + 23, BOTTOM_PROCESS_POS[1] + 65))
 
 if __name__ == "__main__":
     main()
